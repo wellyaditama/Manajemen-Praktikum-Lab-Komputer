@@ -48,6 +48,8 @@ class MahasiswaCrudController extends CrudController
          */
 
          CRUD::column('namaMahasiswa')->type('text')->label('Name');
+         CRUD::column('email')->type('text')->label('Email');
+
          CRUD::column('nim')->type('text')->label('NIM');
          CRUD::column('jenisKelamin')->type('text')->label('Jenis Kelamin');
          CRUD::column('agama')->type('text')->label('Agama');
@@ -76,12 +78,29 @@ class MahasiswaCrudController extends CrudController
          */
 
         CRUD::field('namaMahasiswa')->validationRules('required|min:5');
+        CRUD::field('email')->type('email')->validationRules('required|min:5');
         CRUD::field('nim')->validationRules('required');
-        CRUD::field('agama')->validationRules('required');
-        CRUD::field('angkatan')->validationRules('required|min:4');
-        CRUD::field('jenisKelamin')->validationRules('required');
-        CRUD::field('prodi')->validationRules('required');
-        CRUD::field('noHp')->validationRules('required|min:10');
+        
+        CRUD::addField(['name'        => 'agama',
+                'label'       => "Agama",
+                'type'        => 'select_from_array',
+                'options'     => ['Islam' => 'Islam', 'Kristen' => 'Kristen', 'Katolik'=> 'Katolik', 'Hindu'=> 'Hindu', 'Buddha'=> 'Buddha', 'Konghucu' => 'Konghucu'],
+                'allows_null' => false,
+                'default'     => 'Islam',]);
+        CRUD::field('angkatan')->validationRules('required|min:4')->hint('Tahun angkatan, minimal 4 karakter');
+        CRUD::addField(['name'        => 'jenisKelamin',
+                'label'       => "Jenis Kelamin",
+                'type'        => 'select_from_array',
+                'options'     => ['Laki-laki'=>'Laki-laki', "Perempuan"=>"Perempuan"],
+                'allows_null' => false,
+                'default'     => 'Laki-laki',]);
+                CRUD::addField(['name'        => 'prodi',
+                'label'       => "Prodi",
+                'type'        => 'select_from_array',
+                'options'     => ['Informatika'=>'Informatika'],
+                'allows_null' => false,
+                'default'     => 'Informatika',]);
+        CRUD::field('noHp')->validationRules('required|min:10')->hint('Dimulai dari 08, minimal 10 karakter');
     }
 
     /**
@@ -93,5 +112,30 @@ class MahasiswaCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+
+        CRUD::field('namaMahasiswa')->validationRules('required|min:5');
+        CRUD::field('email')->type('email')->validationRules('required|min:5');
+        CRUD::field('nim')->validationRules('required');
+        
+        CRUD::addField(['name'        => 'agama',
+                'label'       => "Agama",
+                'type'        => 'select_from_array',
+                'options'     => ['Islam' => 'Islam', 'Kristen' => 'Kristen', 'Katolik'=> 'Katolik', 'Hindu'=> 'Hindu', 'Buddha'=> 'Buddha', 'Konghucu' => 'Konghucu'],
+                'allows_null' => false,
+                'default'     => 'Islam',]);
+        CRUD::field('angkatan')->validationRules('required|min:4')->hint('Tahun angkatan, minimal 4 karakter');
+        CRUD::addField(['name'        => 'jenisKelamin',
+                'label'       => "Jenis Kelamin",
+                'type'        => 'select_from_array',
+                'options'     => ['Laki-laki'=>'Laki-laki', "Perempuan"=>"Perempuan"],
+                'allows_null' => false,
+                'default'     => 'Laki-laki',]);
+                CRUD::addField(['name'        => 'prodi',
+                'label'       => "Prodi",
+                'type'        => 'select_from_array',
+                'options'     => ['Informatika'=>'Informatika'],
+                'allows_null' => false,
+                'default'     => 'Informatika',]);
+        CRUD::field('noHp')->validationRules('required|min:10')->hint('Dimulai dari 08, minimal 10 karakter');
     }
 }

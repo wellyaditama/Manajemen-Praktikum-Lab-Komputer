@@ -28,4 +28,9 @@ Route::group([
     Route::crud('jadwal-mata-kuliah', 'JadwalMataKuliahCrudController');
     Route::crud('absensi-praktikum', 'AbsensiPraktikumCrudController');
     Route::crud('nilai-praktikum', 'NilaiPraktikumCrudController');
+    Route::crud('datakelompok', 'DatakelompokCrudController');
+    Route::crud('kelompok', 'KelompokCrudController');
+    Route::crud('tugas', 'TugasCrudController');
+    Route::crud('kumpultugas', 'KumpultugasCrudController');
+    Route::crud('materi-kuliah', 'MateriKuliahCrudController');
 }); // this should be the absolute last line of this file

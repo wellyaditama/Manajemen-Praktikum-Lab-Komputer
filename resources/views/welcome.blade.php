@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="{{url('/images/school.png')}}" type="image/png" sizes="16x16">
+
 
         <title>Laravel</title>
 

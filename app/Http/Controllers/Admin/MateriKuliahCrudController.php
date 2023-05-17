@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RuangKelasRequest;
+use App\Http\Requests\MateriKuliahRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class RuangKelasCrudController
+ * Class MateriKuliahCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class RuangKelasCrudController extends CrudController
+class MateriKuliahCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class RuangKelasCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\RuangKelas::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/ruang-kelas');
-        CRUD::setEntityNameStrings('ruang kelas', 'ruang kelas');
+        CRUD::setModel(\App\Models\MateriKuliah::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/materi-kuliah');
+        CRUD::setEntityNameStrings('materi kuliah', 'materi kuliahs');
     }
 
     /**
@@ -39,15 +39,19 @@ class RuangKelasCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('namaRuangKelas')->type('text')->label('Ruang Kelas');
-        // CRUD::column('gedung')->type('text')->label('Gedung');
-
+        
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+
+        CRUD::column('judulmateri')->type('text')->label('Judul Materi');
+        CRUD::column('namamatakuliah')->type('text')->label('Mata Kuliah');
+        CRUD::column('dosenpengampu')->type('text')->label('Dosen Pengampu');
+        CRUD::column('pertemuanke')->type('text')->label('Pertemuan Ke');
+        
     }
 
     /**
@@ -58,15 +62,35 @@ class RuangKelasCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::field('namaRuangKelas')->validationRules('required')->label('Ruang Kelas');
-        // CRUD::field('gedung')->validationRules('required')->label('Gedung');
-
+        
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
          */
+
+        CRUD::field('judulmateri')->validationRules('required|min:5');
+        CRUD::field('namamatakuliah')->validationRules('required|min:5');
+        CRUD::field('dosenpengampu')->validationRules('required|min:5');
+        CRUD::field('pertemuanke')->validationRules('required|min:1');
+        CRUD::addField([   // Summernote
+            'name'  => 'keteranganmateri',
+            'label' => 'Keterangan Materi',
+            'type'  => 'summernote',
+            'options' => [],
+        ],); 
+        // CRUD::field('lampiran')->validationRules('required|min:5');
+
+        CRUD::addField([   // Upload
+            'name'      => 'lampiran',
+            'label'     => 'Lampiran',
+            'type'      => 'upload',
+            'upload'    => true,
+            'disk'      => 'uploads', // if you store files in the /public folder, please omit this; if you store them in /storage or S3, please specify it;
+            // optional:
+            'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+        ],);
     }
 
     /**

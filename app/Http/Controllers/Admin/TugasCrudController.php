@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RuangKelasRequest;
+use App\Http\Requests\TugasRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class RuangKelasCrudController
+ * Class TugasCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class RuangKelasCrudController extends CrudController
+class TugasCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class RuangKelasCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\RuangKelas::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/ruang-kelas');
-        CRUD::setEntityNameStrings('ruang kelas', 'ruang kelas');
+        CRUD::setModel(\App\Models\Tugas::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/tugas');
+        CRUD::setEntityNameStrings('tugas', 'tugas');
     }
 
     /**
@@ -39,9 +39,15 @@ class RuangKelasCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('namaRuangKelas')->type('text')->label('Ruang Kelas');
-        // CRUD::column('gedung')->type('text')->label('Gedung');
+        
 
+        CRUD::column('judultugas')->type('text')->label('Judul Tugas');
+        CRUD::column('nama_matkul')->type('text')->label('Matkul');
+        CRUD::column('deskripsi')->type('text')->label('Deskripsi');
+        CRUD::column('dosen_pengampu')->type('text')->label('Dosen Pengampu');
+        CRUD::column('lampiran')->type('text')->label('Keterangan');
+
+        
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -58,8 +64,16 @@ class RuangKelasCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::field('namaRuangKelas')->validationRules('required')->label('Ruang Kelas');
-        // CRUD::field('gedung')->validationRules('required')->label('Gedung');
+        CRUD::field('judultugas')->validationRules('required|min:5');
+        CRUD::field('nama_matkul')->validationRules('required|min:5');
+        CRUD::field('deskripsi')->validationRules('required|min:5');
+        CRUD::field('dosen_pengampu')->validationRules('required|min:5');
+        CRUD::field('lampiran')->validationRules('required|min:5');
+
+        
+
+
+
 
 
         /**

@@ -48,7 +48,8 @@ class DosenCrudController extends CrudController
          */
 
          CRUD::column('namaDosen')->type('text')->label('Nama Dosen');
-         CRUD::column('nidn')->type('text')->label('NIDN');
+         CRUD::column('nidn')->type('text')->label('NIP');
+         CRUD::column('email')->type('email')->label('Email');
          CRUD::column('noHp')->type('text')->label('NO HP');
          CRUD::column('deskripsi')->type('text')->label('Deskripsi');
     }
@@ -71,7 +72,9 @@ class DosenCrudController extends CrudController
 
         CRUD::field('namaDosen')->validationRules('required|min:5');
         CRUD::field('nidn')->validationRules('required');
+        CRUD::field('email')->type('email')->validationRules('required');
         CRUD::field('noHp')->validationRules('required');
+        
         CRUD::field('deskripsi')->validationRules('required|min:4');
     }
 

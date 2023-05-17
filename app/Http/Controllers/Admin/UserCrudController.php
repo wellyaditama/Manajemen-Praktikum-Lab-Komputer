@@ -42,6 +42,7 @@ class UserCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('email');
         CRUD::column('password');
+        CRUD::column('role');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -58,9 +59,26 @@ class UserCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::field('name')->validationRules('required|min:5');;
+        CRUD::field('name')->validationRules('required|min:5');
+        CRUD::addField(['name'        => 'role',
+                'label'       => "Role",
+                'type'        => 'select_from_array',
+                'options'     => ['Admin' => 'Admin', 'Mahasiswa' => 'Mahasiswa', 'Dosen'=> 'Dosen'],
+                'allows_null' => false,
+                'default'     => 'Admin',]);
         CRUD::field('email')->validationRules('required|email|unique:users,email');
-        CRUD::field('password')->validationRules('required');
+        CRUD::field('password')->validationRules('required')->hint('Minimum 8 characters.');
+        // $this->crud->addField([
+        //     [   // select_from_array
+        //         'name'        => 'role',
+        //         'label'       => "Role",
+        //         'type'        => 'select_from_array',
+        //         'options'     => ['Admin' => 'Admin', 'Mahasiswa' => 'Mahasiswa', 'Dosen'=> 'Dosen'],
+        //         'allows_null' => false,
+        //         'default'     => 'Admin',
+        //         // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+        //     ],
+        // ]);
 
         \App\Models\User::creating(function ($entry) {
             $entry->password = \Hash::make($entry->password);
@@ -83,9 +101,15 @@ class UserCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-         CRUD::field('name')->validationRules('required|min:5');
-          CRUD::field('email')->validationRules('required|email|unique:users,email,'.CRUD::getCurrentEntryId());
-          CRUD::field('password')->hint('Type a password to change it.');
+            CRUD::field('name')->validationRules('required|min:5');
+            CRUD::addField(['name'        => 'role',
+                'label'       => "Role",
+                'type'        => 'select_from_array',
+                'options'     => ['Admin' => 'Admin', 'Mahasiswa' => 'Mahasiswa', 'Dosen'=> 'Dosen'],
+                'allows_null' => false,
+                'default'     => 'Admin',]);
+            CRUD::field('email')->validationRules('required|email|unique:users,email,'.CRUD::getCurrentEntryId());
+            CRUD::field('password')->hint('Type a password to change it.');
 
           \App\Models\User::updating(function ($entry) {
               if (request('password') == null) {

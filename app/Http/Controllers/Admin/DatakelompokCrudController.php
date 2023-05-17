@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RuangKelasRequest;
+use App\Http\Requests\DatakelompokRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class RuangKelasCrudController
+ * Class DatakelompokCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class RuangKelasCrudController extends CrudController
+class DatakelompokCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class RuangKelasCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\RuangKelas::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/ruang-kelas');
-        CRUD::setEntityNameStrings('ruang kelas', 'ruang kelas');
+        CRUD::setModel(\App\Models\Datakelompok::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/datakelompok');
+        CRUD::setEntityNameStrings('datakelompok', 'datakelompoks');
     }
 
     /**
@@ -39,15 +39,17 @@ class RuangKelasCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('namaRuangKelas')->type('text')->label('Ruang Kelas');
-        // CRUD::column('gedung')->type('text')->label('Gedung');
-
+        
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+
+         CRUD::column('namakelompok')->type('text')->label('Nama Kelompok');
+         CRUD::column('namamahasiswa')->type('text')->label('Nama Mahasiswa');
+         CRUD::column('nimmahasiswa')->type('text')->label('NIM Mahasiswa');
     }
 
     /**
@@ -58,15 +60,18 @@ class RuangKelasCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::field('namaRuangKelas')->validationRules('required')->label('Ruang Kelas');
-        // CRUD::field('gedung')->validationRules('required')->label('Gedung');
-
+        
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
          */
+
+
+        CRUD::field('namakelompok')->validationRules('required|min:5');
+        CRUD::field('namamahasiswa')->validationRules('required|min:5');
+        CRUD::field('nimmahasiswa')->validationRules('required|min:5');
     }
 
     /**

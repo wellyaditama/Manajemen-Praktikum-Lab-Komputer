@@ -60,8 +60,12 @@ class KelasCrudController extends CrudController
     {
         CRUD::field('namaKelas')->validationRules('required')->label('Nama Kelas');
         CRUD::field('namaDosen')->validationRules('required')->label('Dosen Wali Kelas');
-        CRUD::field('namaProdi')->validationRules('required')->label('Prodi');
-
+        CRUD::addField(['name'        => 'namaProdi',
+                'label'       => "Prodi",
+                'type'        => 'select_from_array',
+                'options'     => ['Informatika'=>'Informatika'],
+                'allows_null' => false,
+                'default'     => 'Informatika',]);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
